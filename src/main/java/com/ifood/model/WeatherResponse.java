@@ -4,6 +4,12 @@ public class WeatherResponse {
 
     private MainWeatherData main;
 
+    public WeatherResponse() {}
+
+    public WeatherResponse(MainWeatherData main) {
+        this.main = main;
+    }
+
     public MainWeatherData getMain() {
         return main;
     }
