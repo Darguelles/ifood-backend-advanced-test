@@ -1,8 +1,12 @@
 package com.ifood.model;
 
 import com.google.gson.annotations.SerializedName;
+import org.springframework.data.redis.core.RedisHash;
 
-public class SpotifyAuthCredentials {
+import java.io.Serializable;
+
+@RedisHash("SpotifyAuthCredentials")
+public class SpotifyAuthCredentials implements Serializable {
 
     @SerializedName("access_token")
     private String accessToken;
