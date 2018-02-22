@@ -6,10 +6,13 @@ public class SpotifyAuthCredentials {
 
     @SerializedName("access_token")
     private String accessToken;
+
     @SerializedName("token_type")
     private String tokenType;
+
     @SerializedName("expires_in")
     private Long expiresIn;
+
     private String scope;
 
     public SpotifyAuthCredentials() {
