@@ -8,6 +8,8 @@ import java.io.Serializable;
 @RedisHash("SpotifyAuthCredentials")
 public class SpotifyAuthCredentials implements Serializable {
 
+    private String id;
+
     @SerializedName("access_token")
     private String accessToken;
 
@@ -59,5 +61,13 @@ public class SpotifyAuthCredentials implements Serializable {
 
     public void setScope(String scope) {
         this.scope = scope;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
