@@ -29,11 +29,9 @@ public class SpotifyService {
         credentialsRepository.findAll().forEach(savedCredentials::add);
 
         if (savedCredentials.size() > 0 && savedCredentials.get(0) != null) {
-            System.out.println("getting credentials from storage");
             SpotifyAuthCredentials credentials = savedCredentials.get(0);
             return credentials;
         } else {
-            System.out.println("generating new");
             return generateNewClientCredentials();
         }
     }

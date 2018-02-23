@@ -22,18 +22,22 @@ public class MusicService {
         this.weatherService = weatherService;
     }
 
-    public Collection<Track> retrievePlaylist(String locationName) throws WeatherUndefinedException, SpotifyUndefinedCredentialsException {
+    public WeatherPlaylist retrievePlaylist(String locationName) throws WeatherUndefinedException, SpotifyUndefinedCredentialsException {
         WeatherResponse weather = weatherService.getWeatherByCityName(locationName);
         Set<Track> songs = new HashSet<>();
         songs.addAll(retrievePlaylistSongs(weather.getMain().getTemp()));
-        return songs;
+        WeatherPlaylist weatherPlaylist = new WeatherPlaylist(weather.getMain().getTemp(),
+                selectCategory(weather.getMain().getTemp()).toString(), songs);
+        return weatherPlaylist;
     }
 
-    public Collection<Track> retrievePlaylist(Long longitude, Long latitude) throws WeatherUndefinedException, SpotifyUndefinedCredentialsException {
+    public WeatherPlaylist retrievePlaylist(Long longitude, Long latitude) throws WeatherUndefinedException, SpotifyUndefinedCredentialsException {
         WeatherResponse weather = weatherService.getWeatherByCityLocation(longitude, latitude);
         Set<Track> songs = new HashSet<>();
         songs.addAll(retrievePlaylistSongs(weather.getMain().getTemp()));
-        return songs;
+        WeatherPlaylist weatherPlaylist = new WeatherPlaylist(weather.getMain().getTemp(),
+                selectCategory(weather.getMain().getTemp()).toString(), songs);
+        return weatherPlaylist;
     }
 
     private List<Track> retrievePlaylistSongs(Double temperature) throws SpotifyUndefinedCredentialsException {

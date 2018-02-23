@@ -11,8 +11,6 @@ import static com.ifood.model.enums.Measure.CELCIUS;
 @Service
 public class WeatherService {
 
-    OpenWeatherClient weatherClient = OpenWeatherClient.connect();
-
     private AppProperties appProperties;
 
     public WeatherService(AppProperties appProperties) {
@@ -20,6 +18,7 @@ public class WeatherService {
     }
 
     public WeatherResponse getWeatherByCityName(String cityName) throws WeatherUndefinedException {
+        OpenWeatherClient weatherClient = OpenWeatherClient.connect(appProperties.getWeatherHost());
         WeatherResponse response = weatherClient.getCurrentWeatherByCityName(cityName,
                 appProperties.getWeatherApplicationId(), CELCIUS.code());
         if (response == null) {
@@ -30,6 +29,7 @@ public class WeatherService {
     }
 
     public WeatherResponse getWeatherByCityLocation(Long longitude, Long latitude) throws WeatherUndefinedException {
+        OpenWeatherClient weatherClient = OpenWeatherClient.connect(appProperties.getWeatherHost());
         WeatherResponse response = weatherClient.getCurrentWeatherByLocation(latitude, longitude,
                 appProperties.getWeatherApplicationId(), CELCIUS.code());
         if (response == null) {
