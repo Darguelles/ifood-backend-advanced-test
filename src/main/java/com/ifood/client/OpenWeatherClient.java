@@ -1,26 +1,25 @@
 package com.ifood.client;
 
+import com.ifood.config.FeignClientConfig;
+import com.ifood.config.HystrixOpenWeatherFallbackConfig;
 import com.ifood.model.WeatherResponse;
 import feign.Feign;
 import feign.Param;
 import feign.RequestLine;
-import feign.form.FormEncoder;
 import feign.gson.GsonDecoder;
+import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
+@FeignClient(name = "openWeatherClient",url = "${openweather.host}", fallbackFactory = HystrixOpenWeatherFallbackConfig.class, configuration = FeignClientConfig.class)
 public interface OpenWeatherClient {
 
-    @RequestLine("GET /data/2.5/weather?lat={lat}&lon={lon}&APPID={appId}&units={units}")
-    WeatherResponse getCurrentWeatherByLocation(@Param("lat") Long latitude, @Param("lon") Long longitude,
-                                                @Param("appId") String appId, @Param("units") String units);
+    @GetMapping("/data/2.5/weather?lat={lat}&lon={lon}&APPID={appId}&units={units}")
+    WeatherResponse getCurrentWeatherByLocation(@PathVariable("lat") Long latitude, @PathVariable("lon") Long longitude,
+                                                @PathVariable("appId") String appId, @PathVariable("units") String units);
 
-    @RequestLine("GET /data/2.5/weather?q={cityName}&APPID={appId}&units={units}")
-    WeatherResponse getCurrentWeatherByCityName(@Param("cityName") String cityName, @Param("appId") String appId,
-                                                @Param("units") String units);
-
-    static OpenWeatherClient connect(String uri) {
-        return Feign.builder()
-                .decoder(new GsonDecoder())
-                .target(OpenWeatherClient.class, uri);
-    }
+    @GetMapping("/data/2.5/weather?q={cityName}&APPID={appId}&units={units}")
+    WeatherResponse getCurrentWeatherByCityName(@PathVariable("cityName") String cityName, @PathVariable("appId") String appId,
+                                                @PathVariable("units") String units);
 
 }
