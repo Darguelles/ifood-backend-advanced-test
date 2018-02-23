@@ -6,6 +6,13 @@ public class PlaylistsContainer {
 
     private List<Playlist> items;
 
+    public PlaylistsContainer() {
+    }
+
+    public PlaylistsContainer(List<Playlist> items) {
+        this.items = items;
+    }
+
     public List<Playlist> getItems() {
         return items;
     }

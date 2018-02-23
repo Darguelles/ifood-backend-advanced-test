@@ -4,6 +4,13 @@ public class Playlist {
 
     private String id;
 
+    public Playlist() {
+    }
+
+    public Playlist(String id) {
+        this.id = id;
+    }
+
     public String getId() {
         return id;
     }

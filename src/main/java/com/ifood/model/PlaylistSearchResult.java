@@ -6,6 +6,13 @@ public class PlaylistSearchResult {
 
     private PlaylistsContainer playlists;
 
+    public PlaylistSearchResult() {
+    }
+
+    public PlaylistSearchResult(PlaylistsContainer playlists) {
+        this.playlists = playlists;
+    }
+
     public PlaylistsContainer getPlaylists() {
         return playlists;
     }
