@@ -12,11 +12,18 @@ import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import static feign.Util.toByteArray;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.when;
 
 public class OpenWeatherClientTest {
 
@@ -42,7 +49,7 @@ public class OpenWeatherClientTest {
     @Test
     public void shouldReturnOkForGetWeatherByCityName() {
         WeatherResponse weather = weatherClient.getCurrentWeatherByCityName("lima", "12345", "metric");
-        Assert.assertThat(weather, CoreMatchers.notNullValue());
+        assertThat(weather, notNullValue());
         mockClient.verifyStatus();
     }
 
@@ -50,25 +57,23 @@ public class OpenWeatherClientTest {
     public void shouldReturn404IfCityNameDoesNotMatch() {
         try {
             weatherClient.getCurrentWeatherByCityName("london", "12345", "metric");
-            Assert.fail();
+            fail();
         } catch (FeignException e) {
-            Assert.assertThat(e.getMessage(), Matchers.containsString("404"));
+            assertThat(e.getMessage(), containsString("404"));
         }
     }
 
     @Test
     public void shouldMapCorrectlyTempValueReturnedByClient() {
         WeatherResponse weather = weatherClient.getCurrentWeatherByCityName("lima", "12345", "metric");
-        System.out.println(weather.getMain().getTemp());
-        Assert.assertThat(weather.getMain().getTemp(), CoreMatchers.notNullValue());
+        assertThat(weather.getMain().getTemp(), notNullValue());
         mockClient.verifyStatus();
     }
 
     @Test
     public void shouldReturnCorrectTempValueHardcodedInJsonFile() {
         WeatherResponse weather = weatherClient.getCurrentWeatherByCityName("lima", "12345", "metric");
-        System.out.println(weather.getMain().getTemp());
-        Assert.assertThat(weather.getMain().getTemp(), CoreMatchers.is(DEFAULT_TEMP_VALUE));
+        assertThat(weather.getMain().getTemp(), is(DEFAULT_TEMP_VALUE));
         mockClient.verifyStatus();
     }
 
