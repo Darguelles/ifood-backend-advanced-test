@@ -29,4 +29,14 @@ public class WeatherService {
         }
     }
 
+    public WeatherResponse getWeatherByCityLocation(Long longitude, Long latitude) throws WeatherUndefinedException {
+        WeatherResponse response = weatherClient.getCurrentWeatherByLocation(latitude, longitude,
+                appProperties.getWeatherApplicationId(), CELCIUS.code());
+        if (response == null) {
+            throw new WeatherUndefinedException("No weather information for the current location");
+        } else {
+            return response;
+        }
+    }
+
 }
