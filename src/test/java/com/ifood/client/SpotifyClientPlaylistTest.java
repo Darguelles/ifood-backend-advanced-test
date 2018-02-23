@@ -1,14 +1,11 @@
 package com.ifood.client;
 
-import com.ifood.model.SpotifyAuthCredentials;
+import com.ifood.model.PlaylistSearchResult;
 import feign.Feign;
 import feign.form.FormEncoder;
 import feign.gson.GsonDecoder;
-import feign.mock.HttpMethod;
 import feign.mock.MockClient;
 import feign.mock.MockTarget;
-import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,43 +13,44 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import static feign.Util.toByteArray;
+import static feign.mock.HttpMethod.GET;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
-public class SpotifyClientCredentialsTest {
+public class SpotifyClientPlaylistTest {
 
     private MockClient mockClient;
     private SpotifyClient spotifyClient;
 
-    private final static String ENCODED_CREDENTIALS = "jfhfewk8439u4hgoi34y54ef";
-    private final static String GRANT_TYPE = "jfhfewk8439u4hgoi34y54ef";
     private final static String DEFAULT_TOKEN = "abcd123456";
+    private final static String DEFAULT_CATEGORY = "rock";
+    private final static String DEFAULT_PLAYLIST_ID = "37i9dQZF1DWUlZhYdX0uqM";
 
     @Before
     public void setUp() throws IOException {
-        try (InputStream input = getClass().getClassLoader().getResourceAsStream("SpotifyClientCredentialsResponse.json")) {
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("SpotifyClientPlaylistsResponse.json")) {
             byte[] data = toByteArray(input);
             mockClient = new MockClient();
             spotifyClient = Feign.builder()
                     .decoder(new GsonDecoder())
                     .encoder(new FormEncoder())
-                    .client(mockClient.ok(HttpMethod.POST, "/api/token", data))
+                    .client(mockClient.ok(GET, "/v1/browse/categories/rock/playlists", data))
                     .target(new MockTarget<>(SpotifyClient.class));
         }
     }
 
     @Test
-    public void shouldReturnOkForGetClientCredentials() {
-        SpotifyAuthCredentials credentials = spotifyClient.getSpotifyAuthCredentials(ENCODED_CREDENTIALS, GRANT_TYPE);
-        assertThat(credentials, notNullValue());
+    public void shouldReturnOkForGetCategoryPlaylists() {
+        PlaylistSearchResult searchResult = spotifyClient.getPlaylistByCategory(DEFAULT_TOKEN, DEFAULT_CATEGORY);
+        assertThat(searchResult, notNullValue());
         mockClient.verifyStatus();
     }
 
     @Test
-    public void shouldReturnCorrectTokenHardcodedInJsonFile() {
-        SpotifyAuthCredentials credentials = spotifyClient.getSpotifyAuthCredentials(ENCODED_CREDENTIALS, GRANT_TYPE);
-        assertThat(credentials.getAccessToken(), is(DEFAULT_TOKEN));
+    public void shouldMapCorrectlyRetrievedValuesWithOurObjectModel() {
+        PlaylistSearchResult searchResult = spotifyClient.getPlaylistByCategory(DEFAULT_TOKEN, DEFAULT_CATEGORY);
+        assertThat(searchResult.getPlaylists().getItems().get(0).getId(), is(DEFAULT_PLAYLIST_ID));
         mockClient.verifyStatus();
     }
 

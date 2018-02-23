@@ -24,6 +24,8 @@ import static org.mockito.Mockito.when;
 public class MusicServiceTest {
 
     private final static String DEFAULT_LOCATION_NAME = "Lima";
+    private final static Long DEFAULT_LOCATION_LATITUDE = 34564l;
+    private final static Long DEFAULT_LOCATION_LONGITUDE = 33333l;
     private final static String DEFAULT_PLAYLIST_ID = "123456";
     private final static Double DEFAULT_TEMP = 11.3;
     private final static String DEFAULT_CATEGORY = "rock";
@@ -44,13 +46,25 @@ public class MusicServiceTest {
     }
 
     @Test
-    public void shouldRetrievePlaylistSongs() throws Exception {
+    public void shouldRetrievePlaylistSongsByCityName() throws Exception {
         when(spotifyService.retrieveSpotifyClientCredentials()).thenReturn(defaultCredentials);
         when(spotifyService.getTracksByPlaylist(defaultCredentials, DEFAULT_PLAYLIST_ID)).thenReturn(TrackSearchResultBuilder.build().now());
         when(spotifyService.getPlaylistByCategory(defaultCredentials, DEFAULT_CATEGORY)).thenReturn(new PlaylistSearchResult(new PlaylistsContainer(asList(new Playlist(DEFAULT_PLAYLIST_ID)))));
         when(weatherService.getWeatherByCityName(DEFAULT_LOCATION_NAME)).thenReturn(new WeatherResponse(new MainWeatherData(DEFAULT_TEMP)));
 
         WeatherPlaylist result = musicService.retrievePlaylist(DEFAULT_LOCATION_NAME);
+
+        assertThat(result.getSongList().size(), is(3));
+    }
+
+    @Test
+    public void shouldRetrievePlaylistSongsByLocationCoord() throws Exception {
+        when(spotifyService.retrieveSpotifyClientCredentials()).thenReturn(defaultCredentials);
+        when(spotifyService.getTracksByPlaylist(defaultCredentials, DEFAULT_PLAYLIST_ID)).thenReturn(TrackSearchResultBuilder.build().now());
+        when(spotifyService.getPlaylistByCategory(defaultCredentials, DEFAULT_CATEGORY)).thenReturn(new PlaylistSearchResult(new PlaylistsContainer(asList(new Playlist(DEFAULT_PLAYLIST_ID)))));
+        when(weatherService.getWeatherByCityLocation(DEFAULT_LOCATION_LATITUDE, DEFAULT_LOCATION_LONGITUDE)).thenReturn(new WeatherResponse(new MainWeatherData(DEFAULT_TEMP)));
+
+        WeatherPlaylist result = musicService.retrievePlaylist(DEFAULT_LOCATION_LATITUDE, DEFAULT_LOCATION_LONGITUDE);
 
         assertThat(result.getSongList().size(), is(3));
     }

@@ -2,12 +2,12 @@ package com.ifood.builders;
 
 import com.ifood.model.Track;
 import com.ifood.model.WeatherPlaylist;
-import com.ifood.model.util.Item;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
+
+import static java.util.Arrays.asList;
 
 public class WeatherPlaylistBuilder {
 
@@ -16,7 +16,7 @@ public class WeatherPlaylistBuilder {
 
     private Double currentTemperature = DEFAULT_CURRENT_TEMP;
     private String genre = DEFAULT_GENRE;
-    private Set<Track> songList = new HashSet<>(Arrays.asList(TrackBuilder.build().now(),
+    private Set<Track> songList = new HashSet<>(asList(TrackBuilder.build().now(),
             TrackBuilder.build().with(track -> track.name = "Don't cry").now(),
             TrackBuilder.build().with(track -> track.name = "Paradise City").now()));
 
