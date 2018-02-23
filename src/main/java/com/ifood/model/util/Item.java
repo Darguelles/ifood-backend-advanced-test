@@ -6,6 +6,13 @@ public class Item {
 
     private Track track;
 
+    public Item() {
+    }
+
+    public Item(Track track) {
+        this.track = track;
+    }
+
     public Track getTrack() {
         return track;
     }

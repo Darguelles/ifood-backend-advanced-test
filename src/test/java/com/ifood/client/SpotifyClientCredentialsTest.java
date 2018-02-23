@@ -17,7 +17,7 @@ import java.io.InputStream;
 
 import static feign.Util.toByteArray;
 
-public class SpotifyClientTest {
+public class SpotifyClientCredentialsTest {
 
     private MockClient mockClient;
     private SpotifyClient spotifyClient;

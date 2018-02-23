@@ -5,6 +5,14 @@ public class Artist {
     private String name;
     private String uri;
 
+    public Artist() {
+    }
+
+    public Artist(String name, String uri) {
+        this.name = name;
+        this.uri = uri;
+    }
+
     public String getName() {
         return name;
     }

@@ -8,6 +8,13 @@ public class TrackSearchResult {
 
     private List<Item> items;
 
+    public TrackSearchResult() {
+    }
+
+    public TrackSearchResult(List<Item> items) {
+        this.items = items;
+    }
+
     public List<Item> getItems() {
         return items;
     }

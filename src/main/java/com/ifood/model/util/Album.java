@@ -5,6 +5,14 @@ public class Album {
     private String name;
     private String uri;
 
+    public Album() {
+    }
+
+    public Album(String name, String uri) {
+        this.name = name;
+        this.uri = uri;
+    }
+
     public String getName() {
         return name;
     }

@@ -12,11 +12,13 @@ import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import static feign.Util.toByteArray;
+import static org.mockito.Mockito.when;
 
 public class OpenWeatherClientTest {
 
@@ -59,7 +61,6 @@ public class OpenWeatherClientTest {
     @Test
     public void shouldMapCorrectlyTempValueReturnedByClient() {
         WeatherResponse weather = weatherClient.getCurrentWeatherByCityName("lima", "12345", "metric");
-        System.out.println(weather.getMain().getTemp());
         Assert.assertThat(weather.getMain().getTemp(), CoreMatchers.notNullValue());
         mockClient.verifyStatus();
     }
@@ -67,7 +68,6 @@ public class OpenWeatherClientTest {
     @Test
     public void shouldReturnCorrectTempValueHardcodedInJsonFile() {
         WeatherResponse weather = weatherClient.getCurrentWeatherByCityName("lima", "12345", "metric");
-        System.out.println(weather.getMain().getTemp());
         Assert.assertThat(weather.getMain().getTemp(), CoreMatchers.is(DEFAULT_TEMP_VALUE));
         mockClient.verifyStatus();
     }
