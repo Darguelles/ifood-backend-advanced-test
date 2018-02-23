@@ -2,6 +2,7 @@ package com.ifood.model;
 
 import com.google.gson.annotations.SerializedName;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.TimeToLive;
 
 import java.io.Serializable;
 
@@ -47,6 +48,7 @@ public class SpotifyAuthCredentials implements Serializable {
         this.tokenType = tokenType;
     }
 
+    @TimeToLive
     public Long getExpiresIn() {
         return expiresIn;
     }

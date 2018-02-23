@@ -1,5 +1,7 @@
 package com.ifood.model;
 
+import com.ifood.model.util.Item;
+
 import java.util.List;
 
 public class TrackSearchResult {

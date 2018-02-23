@@ -1,14 +1,16 @@
 package com.ifood.model;
 
+import com.ifood.model.util.PlaylistsContainer;
+
 public class PlaylistSearchResult {
 
-    private Playlists playlists;
+    private PlaylistsContainer playlists;
 
-    public Playlists getPlaylists() {
+    public PlaylistsContainer getPlaylists() {
         return playlists;
     }
 
-    public void setPlaylists(Playlists playlists) {
+    public void setPlaylists(PlaylistsContainer playlists) {
         this.playlists = playlists;
     }
 }

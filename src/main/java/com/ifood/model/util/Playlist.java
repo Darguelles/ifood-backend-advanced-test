@@ -1,4 +1,4 @@
-package com.ifood.model;
+package com.ifood.model.util;
 
 public class Playlist {
 

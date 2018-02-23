@@ -1,5 +1,8 @@
 package com.ifood.model;
 
+import com.ifood.model.util.Album;
+import com.ifood.model.util.Artist;
+
 import java.util.List;
 
 public class Track {

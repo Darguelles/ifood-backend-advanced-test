@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import java.util.concurrent.TimeUnit;
+
 @Configuration
 public class RedisConfig {
 

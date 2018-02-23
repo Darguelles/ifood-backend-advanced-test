@@ -1,8 +1,8 @@
-package com.ifood.model;
+package com.ifood.model.util;
 
 import java.util.List;
 
-public class Playlists {
+public class PlaylistsContainer {
 
     private List<Playlist> items;
 

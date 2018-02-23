@@ -12,6 +12,8 @@ public class AppProperties {
     private String weatherApplicationId;
     @Value("${spotify.host}")
     private String spotifyHost;
+    @Value("${spotify.apiHost}")
+    private String spotifyApiHost;
     @Value("${spotify.clientId}")
     private String spotifyClientId;
     @Value("${spotify.clientSecret}")
@@ -56,5 +58,13 @@ public class AppProperties {
 
     public void setSpotifyClientSecret(String spotifyClientSecret) {
         this.spotifyClientSecret = spotifyClientSecret;
+    }
+
+    public String getSpotifyApiHost() {
+        return spotifyApiHost;
+    }
+
+    public void setSpotifyApiHost(String spotifyApiHost) {
+        this.spotifyApiHost = spotifyApiHost;
     }
 }

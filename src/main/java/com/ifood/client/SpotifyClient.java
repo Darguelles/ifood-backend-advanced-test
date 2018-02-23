@@ -1,7 +1,6 @@
 package com.ifood.client;
 
 import com.ifood.model.PlaylistSearchResult;
-import com.ifood.model.Playlists;
 import com.ifood.model.SpotifyAuthCredentials;
 import com.ifood.model.TrackSearchResult;
 import feign.Feign;

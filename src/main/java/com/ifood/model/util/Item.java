@@ -1,4 +1,6 @@
-package com.ifood.model;
+package com.ifood.model.util;
+
+import com.ifood.model.Track;
 
 public class Item {
 
