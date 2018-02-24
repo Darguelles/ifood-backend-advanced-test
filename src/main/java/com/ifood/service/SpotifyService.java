@@ -1,14 +1,19 @@
 package com.ifood.service;
 
-import com.ifood.client.SpotifyClient;
+import com.ifood.client.SpotifyAuthenticationClient;
+import com.ifood.client.SpotifyOperationsClient;
 import com.ifood.config.AppProperties;
 import com.ifood.exception.SpotifyUndefinedCredentialsException;
-import com.ifood.model.*;
+import com.ifood.model.PlaylistSearchResult;
+import com.ifood.model.SpotifyAuthCredentials;
+import com.ifood.model.TrackSearchResult;
 import com.ifood.repository.SpotifyAuthCredentialsRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.ifood.util.Util.getBase64EncodedString;
 
@@ -17,11 +22,14 @@ public class SpotifyService {
 
     private AppProperties appProperties;
     private SpotifyAuthCredentialsRepository credentialsRepository;
-    private SpotifyClient spotifyClient;
+    private SpotifyAuthenticationClient spotifyAuthenticationClient;
+    private SpotifyOperationsClient spotifyOperationsClient;
 
-    public SpotifyService(AppProperties appProperties, SpotifyAuthCredentialsRepository credentialsRepository) {
+    public SpotifyService(AppProperties appProperties, SpotifyAuthCredentialsRepository credentialsRepository, SpotifyAuthenticationClient spotifyAuthenticationClient, SpotifyOperationsClient spotifyOperationsClient) {
         this.appProperties = appProperties;
         this.credentialsRepository = credentialsRepository;
+        this.spotifyAuthenticationClient = spotifyAuthenticationClient;
+        this.spotifyOperationsClient = spotifyOperationsClient;
     }
 
     public SpotifyAuthCredentials retrieveSpotifyClientCredentials() throws SpotifyUndefinedCredentialsException {
@@ -38,8 +46,10 @@ public class SpotifyService {
 
     private SpotifyAuthCredentials generateNewClientCredentials() throws SpotifyUndefinedCredentialsException {
         String encodcedClientCredentials = getBase64EncodedString(appProperties.getSpotifyClientId() + ":" + appProperties.getSpotifyClientSecret());
-        spotifyClient = SpotifyClient.connect(appProperties.getSpotifyHost());
-        SpotifyAuthCredentials credentials = spotifyClient.getSpotifyAuthCredentials(encodcedClientCredentials, "client_credentials");
+        Map<String, String> requestParams = new HashMap<>();
+        requestParams.put("grant_type", "client_credentials");
+        SpotifyAuthCredentials credentials = spotifyAuthenticationClient.getSpotifyAuthCredentials("Basic " + encodcedClientCredentials,
+                requestParams);
         if (credentials == null) {
             throw new SpotifyUndefinedCredentialsException("Unable to retrieve client credentials. Verify client id/secret");
         } else {
@@ -50,8 +60,7 @@ public class SpotifyService {
 
     public PlaylistSearchResult getPlaylistByCategory(SpotifyAuthCredentials credentials, String categoryId) throws SpotifyUndefinedCredentialsException {
         String token = credentials.getTokenType() + " " + credentials.getAccessToken();
-        spotifyClient = SpotifyClient.connect(appProperties.getSpotifyApiHost());
-        PlaylistSearchResult playlistsResult = spotifyClient.getPlaylistByCategory(token, categoryId);
+        PlaylistSearchResult playlistsResult = spotifyOperationsClient.getPlaylistByCategory(token, categoryId);
         if (playlistsResult == null) {
             throw new SpotifyUndefinedCredentialsException("Unable to find playlist with the current credentials provided or category type");
         } else {
@@ -61,8 +70,7 @@ public class SpotifyService {
 
     public TrackSearchResult getTracksByPlaylist(SpotifyAuthCredentials credentials, String playlistId) throws SpotifyUndefinedCredentialsException {
         String token = credentials.getTokenType() + " " + credentials.getAccessToken();
-        spotifyClient = SpotifyClient.connect(appProperties.getSpotifyApiHost());
-        TrackSearchResult result = spotifyClient.getTracks(token, playlistId);
+        TrackSearchResult result = spotifyOperationsClient.getTracks(token, playlistId);
         if (result == null) {
             throw new SpotifyUndefinedCredentialsException("Unable to find playlist with the current credentials provided or category type");
         } else {

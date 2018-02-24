@@ -21,3 +21,6 @@ hystrix:
       circuitBreaker:
         enabled: true
         requestVolumeThreshold: 2
+logging:
+  level:
+    com.ifood.client.SpotifyClient: DEBUG
