@@ -2,7 +2,9 @@ package com.ifood.model.util;
 
 import com.ifood.model.Track;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable{
 
     private Track track;
 

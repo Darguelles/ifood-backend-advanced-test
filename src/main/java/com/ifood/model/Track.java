@@ -3,9 +3,10 @@ package com.ifood.model;
 import com.ifood.model.util.Album;
 import com.ifood.model.util.Artist;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Track {
+public class Track implements Serializable{
 
     private Album album;
     private List<Artist> artists;

@@ -2,9 +2,10 @@ package com.ifood.model;
 
 import com.ifood.model.util.Item;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class TrackSearchResult {
+public class TrackSearchResult implements Serializable {
 
     private List<Item> items;
 

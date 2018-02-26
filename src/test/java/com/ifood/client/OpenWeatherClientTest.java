@@ -4,26 +4,21 @@ import com.ifood.model.WeatherResponse;
 import feign.Feign;
 import feign.FeignException;
 import feign.gson.GsonDecoder;
-import feign.mock.HttpMethod;
 import feign.mock.MockClient;
 import feign.mock.MockTarget;
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import static feign.Util.toByteArray;
+import static feign.mock.HttpMethod.GET;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.when;
 
 public class OpenWeatherClientTest {
 
@@ -41,7 +36,7 @@ public class OpenWeatherClientTest {
             weatherClient = Feign.builder()
                     .decoder(new GsonDecoder())
                     .client(mockClient
-                            .ok(HttpMethod.GET, "/data/2.5/weather?q=lima&APPID=12345&units=metric", data))
+                            .ok(GET, "/data/2.5/weather?q=lima&APPID=12345&units=metric", data))
                     .target(new MockTarget<>(OpenWeatherClient.class));
         }
     }
