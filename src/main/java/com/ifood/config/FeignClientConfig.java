@@ -1,5 +1,6 @@
 package com.ifood.config;
 
+import feign.Contract;
 import feign.Logger;
 import feign.codec.Decoder;
 import feign.codec.Encoder;

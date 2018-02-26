@@ -15,7 +15,7 @@ import java.util.Collection;
 @RestController
 public class MusicController {
 
-    MusicService musicService;
+    private MusicService musicService;
 
     public MusicController(MusicService musicService) {
         this.musicService = musicService;
