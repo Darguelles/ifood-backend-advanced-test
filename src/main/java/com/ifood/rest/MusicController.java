@@ -21,12 +21,12 @@ public class MusicController {
         this.musicService = musicService;
     }
 
-    @GetMapping("/playlist/{locationName}")
+    @GetMapping("/playlist?location={locationName}")
     public WeatherPlaylist getWeatherPlaylist(@PathVariable String locationName) throws WeatherUndefinedException, SpotifyUndefinedCredentialsException {
         return musicService.retrievePlaylist(locationName);
     }
 
-    @GetMapping("/playlist/{locationLong}/{locationLat}")
+    @GetMapping("/playlist?longitude={locationLong}&latitude={locationLat}")
     public WeatherPlaylist getWeatherPlaylist(@PathVariable Long locationLong, @PathVariable Long locationLat) throws WeatherUndefinedException, SpotifyUndefinedCredentialsException  {
         return musicService.retrievePlaylist(locationLong, locationLat);
     }
