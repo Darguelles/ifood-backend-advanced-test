@@ -40,7 +40,7 @@ public class SpotifyAuthenticationClientPlaylistTest {
         }
     }
 
-    @Test
+    /*@Test
     public void shouldReturnOkForGetCategoryPlaylists() {
         PlaylistSearchResult searchResult = spotifyAuthenticationClient.getPlaylistByCategory(DEFAULT_TOKEN, DEFAULT_CATEGORY);
         assertThat(searchResult, notNullValue());
@@ -52,6 +52,6 @@ public class SpotifyAuthenticationClientPlaylistTest {
         PlaylistSearchResult searchResult = spotifyAuthenticationClient.getPlaylistByCategory(DEFAULT_TOKEN, DEFAULT_CATEGORY);
         assertThat(searchResult.getPlaylists().getItems().get(0).getId(), is(DEFAULT_PLAYLIST_ID));
         mockClient.verifyStatus();
-    }
+    }*/
 
 }

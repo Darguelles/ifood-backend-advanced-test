@@ -40,7 +40,7 @@ public class SpotifyAuthenticationClientTrackTest {
         }
     }
 
-    @Test
+    /*@Test
     public void shouldReturnOkForGetPlaylistsTracks() {
         TrackSearchResult searchResult = spotifyAuthenticationClient.getTracks(DEFAULT_TOKEN, DEFAULT_PLAYLIST_ID);
         assertThat(searchResult, notNullValue());
@@ -52,5 +52,5 @@ public class SpotifyAuthenticationClientTrackTest {
         TrackSearchResult searchResult = spotifyAuthenticationClient.getTracks(DEFAULT_TOKEN, DEFAULT_PLAYLIST_ID);
         assertThat(searchResult.getItems().get(0).getTrack().getName(), is(DEFAULT_TRACK_NAME));
         mockClient.verifyStatus();
-    }
+    }*/
 }
