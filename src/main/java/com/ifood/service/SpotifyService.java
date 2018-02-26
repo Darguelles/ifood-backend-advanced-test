@@ -8,6 +8,7 @@ import com.ifood.model.PlaylistSearchResult;
 import com.ifood.model.SpotifyAuthCredentials;
 import com.ifood.model.TrackSearchResult;
 import com.ifood.repository.SpotifyAuthCredentialsRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -68,6 +69,8 @@ public class SpotifyService {
         }
     }
 
+
+    @Cacheable(cacheNames = "tracksearch", key = "{#credentials?.accessToken, #playlistId}")
     public TrackSearchResult getTracksByPlaylist(SpotifyAuthCredentials credentials, String playlistId) throws SpotifyUndefinedCredentialsException {
         String token = credentials.getTokenType() + " " + credentials.getAccessToken();
         TrackSearchResult result = spotifyOperationsClient.getTracks(token, playlistId);

@@ -1,6 +1,8 @@
 package com.ifood.model.util;
 
-public class Album {
+import java.io.Serializable;
+
+public class Album implements Serializable{
 
     private String name;
     private String uri;
