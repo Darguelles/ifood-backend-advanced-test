@@ -3,6 +3,7 @@ package com.ifood.service;
 import com.ifood.client.SpotifyAuthenticationClient;
 import com.ifood.client.SpotifyOperationsClient;
 import com.ifood.config.AppProperties;
+import com.ifood.exception.SpotifyDataRetrievingException;
 import com.ifood.exception.SpotifyUndefinedCredentialsException;
 import com.ifood.model.PlaylistSearchResult;
 import com.ifood.model.SpotifyAuthCredentials;
@@ -59,11 +60,11 @@ public class SpotifyService {
         }
     }
 
-    public PlaylistSearchResult getPlaylistByCategory(SpotifyAuthCredentials credentials, String categoryId) throws SpotifyUndefinedCredentialsException {
+    public PlaylistSearchResult getPlaylistByCategory(SpotifyAuthCredentials credentials, String categoryId) throws SpotifyDataRetrievingException {
         String token = credentials.getTokenType() + " " + credentials.getAccessToken();
         PlaylistSearchResult playlistsResult = spotifyOperationsClient.getPlaylistByCategory(token, categoryId);
         if (playlistsResult == null) {
-            throw new SpotifyUndefinedCredentialsException("Unable to find playlist with the current credentials provided or category type");
+            throw new SpotifyDataRetrievingException("Unable to find playlist with the current credentials provided or category type");
         } else {
             return playlistsResult;
         }
@@ -71,11 +72,11 @@ public class SpotifyService {
 
 
     @Cacheable(cacheNames = "tracksearch", key = "{#credentials?.accessToken, #playlistId}")
-    public TrackSearchResult getTracksByPlaylist(SpotifyAuthCredentials credentials, String playlistId) throws SpotifyUndefinedCredentialsException {
+    public TrackSearchResult getTracksByPlaylist(SpotifyAuthCredentials credentials, String playlistId) throws SpotifyDataRetrievingException {
         String token = credentials.getTokenType() + " " + credentials.getAccessToken();
         TrackSearchResult result = spotifyOperationsClient.getTracks(token, playlistId);
         if (result == null) {
-            throw new SpotifyUndefinedCredentialsException("Unable to find playlist with the current credentials provided or category type");
+            throw new SpotifyDataRetrievingException("Unable to find playlist with the current credentials provided or category type");
         } else {
             return result;
         }
