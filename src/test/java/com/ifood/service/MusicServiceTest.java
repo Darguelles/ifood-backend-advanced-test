@@ -24,8 +24,8 @@ import static org.mockito.Mockito.when;
 public class MusicServiceTest {
 
     private final static String DEFAULT_LOCATION_NAME = "Lima";
-    private final static Long DEFAULT_LOCATION_LATITUDE = 34564l;
-    private final static Long DEFAULT_LOCATION_LONGITUDE = 33333l;
+    private final static Double DEFAULT_LOCATION_LATITUDE = 345.64;
+    private final static Double DEFAULT_LOCATION_LONGITUDE = 333.33;
     private final static String DEFAULT_PLAYLIST_ID = "123456";
     private final static Double DEFAULT_TEMP = 11.3;
     private final static String DEFAULT_CATEGORY = "rock";
