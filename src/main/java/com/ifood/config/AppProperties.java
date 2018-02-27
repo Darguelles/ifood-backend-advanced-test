@@ -18,6 +18,10 @@ public class AppProperties {
     private String spotifyClientId;
     @Value("${spotify.clientSecret}")
     private String spotifyClientSecret;
+    @Value("${spring.redis.host}")
+    private String redisHost;
+    @Value("${spring.redis.port}")
+    private int redisPort;
 
 
     public String getWeatherApplicationId() {
@@ -66,5 +70,21 @@ public class AppProperties {
 
     public void setSpotifyApiHost(String spotifyApiHost) {
         this.spotifyApiHost = spotifyApiHost;
+    }
+
+    public String getRedisHost() {
+        return redisHost;
+    }
+
+    public void setRedisHost(String redisHost) {
+        this.redisHost = redisHost;
+    }
+
+    public int getRedisPort() {
+        return redisPort;
+    }
+
+    public void setRedisPort(int redisPort) {
+        this.redisPort = redisPort;
     }
 }

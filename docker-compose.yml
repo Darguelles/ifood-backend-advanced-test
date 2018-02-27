@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+  api:
+    build: .
+    container_name: ifood-api
+    ports:
+     - "8080:8080"
+    volumes:
+     - .:/var/www
+    command: ./gradlew clean build bootRun
+  redis:
+    container_name: redis
+    hostname: redis
+    image: redis
+    ports:
+     - "6379:6379"

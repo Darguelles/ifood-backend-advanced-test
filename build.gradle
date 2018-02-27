@@ -40,6 +40,11 @@ sourceSets {
 	}
 }
 
+findbugs {
+	sourceSets = [sourceSets.main, sourceSets.test]
+    ignoreFailures = true
+}
+
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-rest')
 	compile('org.springframework.boot:spring-boot-starter-hateoas')
