@@ -32,7 +32,7 @@ public class MusicController {
 
     @GetMapping(value = "/playlist", params = {"longitude","latitude"})
     public ResponseEntity<WeatherPlaylist> getWeatherPlaylist(@RequestParam Double longitude, @RequestParam Double latitude) throws WeatherUndefinedException, SpotifyUndefinedCredentialsException, SpotifyDataRetrievingException {
-        WeatherPlaylist result =musicService.retrievePlaylist(longitude, latitude);
+        WeatherPlaylist result =musicService.retrievePlaylist(latitude, longitude);
         return ResponseEntity.ok(result);
     }
 

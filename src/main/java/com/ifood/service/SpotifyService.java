@@ -34,6 +34,18 @@ public class SpotifyService {
         this.spotifyOperationsClient = spotifyOperationsClient;
     }
 
+    public void setCredentialsRepository(SpotifyAuthCredentialsRepository credentialsRepository) {
+        this.credentialsRepository = credentialsRepository;
+    }
+
+    public void setSpotifyAuthenticationClient(SpotifyAuthenticationClient spotifyAuthenticationClient) {
+        this.spotifyAuthenticationClient = spotifyAuthenticationClient;
+    }
+
+    public void setSpotifyOperationsClient(SpotifyOperationsClient spotifyOperationsClient) {
+        this.spotifyOperationsClient = spotifyOperationsClient;
+    }
+
     public SpotifyAuthCredentials retrieveSpotifyClientCredentials() throws SpotifyUndefinedCredentialsException {
         List<SpotifyAuthCredentials> savedCredentials = new ArrayList<>();
         credentialsRepository.findAll().forEach(savedCredentials::add);

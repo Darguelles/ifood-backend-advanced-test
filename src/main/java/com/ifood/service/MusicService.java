@@ -35,8 +35,8 @@ public class MusicService {
         return weatherPlaylist;
     }
 
-    public WeatherPlaylist retrievePlaylist(Double longitude, Double latitude) throws WeatherUndefinedException, SpotifyUndefinedCredentialsException, SpotifyDataRetrievingException {
-        WeatherResponse weather = weatherService.getWeatherByCityLocation(longitude, latitude);
+    public WeatherPlaylist retrievePlaylist(Double latitude, Double longitude) throws WeatherUndefinedException, SpotifyUndefinedCredentialsException, SpotifyDataRetrievingException {
+        WeatherResponse weather = weatherService.getWeatherByCityLocation(latitude, longitude);
         SpotifyAuthCredentials credentials = spotifyService.retrieveSpotifyClientCredentials();
 
         Set<Track> songs = new HashSet<>();

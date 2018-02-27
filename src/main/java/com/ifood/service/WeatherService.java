@@ -19,6 +19,10 @@ public class WeatherService {
         this.appProperties = appProperties;
     }
 
+    public void setOpenWeatherClient(OpenWeatherClient openWeatherClient) {
+        this.openWeatherClient = openWeatherClient;
+    }
+
     public WeatherResponse getWeatherByCityName(String cityName) throws WeatherUndefinedException {
         WeatherResponse response = openWeatherClient.getCurrentWeatherByCityName(cityName,
                 appProperties.getWeatherApplicationId(), CELCIUS.code());
@@ -29,7 +33,7 @@ public class WeatherService {
         }
     }
 
-    public WeatherResponse getWeatherByCityLocation(Double longitude, Double latitude) throws WeatherUndefinedException {
+    public WeatherResponse getWeatherByCityLocation(Double latitude, Double longitude) throws WeatherUndefinedException {
         WeatherResponse response = openWeatherClient.getCurrentWeatherByLocation(latitude, longitude,
                 appProperties.getWeatherApplicationId(), CELCIUS.code());
         if (response == null) {
