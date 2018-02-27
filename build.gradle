@@ -67,6 +67,6 @@ dependencyManagement {
 
 task intTest(type: Test) {
 	description 'It runs the integration tests.'
-	testClassesDirs = sourceSets.intTest.output.classesDirs
+	testClassesDir = sourceSets.intTest.output.classesDir
 	classpath = sourceSets.intTest.runtimeClasspath
 }
