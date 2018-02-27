@@ -49,7 +49,7 @@ You can find more information about the docker compose commands in the official 
 
 ## Documentation
 You can review in detail any framework/tool used in this project through the architecture design records. 
-Find it here:` doc/arch/`
+Find them here: ` doc/arch/`
 
 
 
