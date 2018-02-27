@@ -45,7 +45,7 @@ public class MusicControllerTest {
 
     @Test
     public void shouldReturnWeatherTrackListByLocationCoord() throws Exception {
-        when(musicService.retrievePlaylist(DEFAULT_LOCATION_LONGITUDE, DEFAULT_LOCATION_LATITUDE)).thenReturn(WeatherPlaylistBuilder.build().now());
+        when(musicService.retrievePlaylist(DEFAULT_LOCATION_LATITUDE, DEFAULT_LOCATION_LONGITUDE)).thenReturn(WeatherPlaylistBuilder.build().now());
 
         ResponseEntity<WeatherPlaylist> response = musicController.getWeatherPlaylist(DEFAULT_LOCATION_LONGITUDE, DEFAULT_LOCATION_LATITUDE);
 
