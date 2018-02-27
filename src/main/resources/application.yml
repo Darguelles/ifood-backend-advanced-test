@@ -1,4 +1,7 @@
-
+spring:
+  redis:
+    host: redis
+    port: 6379
 openweather:
   host: http://api.openweathermap.org
   applicationId: 8bda43274992b81b2e3bd399316b74dd
@@ -24,3 +27,4 @@ hystrix:
 logging:
   level:
     com.ifood.client.SpotifyClient: DEBUG
+

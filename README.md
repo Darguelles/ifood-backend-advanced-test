@@ -1,22 +1,72 @@
-# iFood Backend Advanced Test
+# iFood Music API
 
-Create a micro-service able to accept RESTful requests receiving as parameter either city name or lat long coordinates and returns a playlist (only track names is fine) suggestion according to the current temperature.
+Welcome to the iFood music API. This application will help you to retrieve the coolest song depending of the current weather. The API exposes two Restful endpoints to retrieve music:
 
-## Business rules
+* Retrieve by location name: `http://localhost:8080/playlist?location=lima`
+* Retrieve by location coordinates: `http://localhost:8080/playlist?longitude=-23.550520&latitude=-46.633309`
 
-* If temperature (celcius) is above 30 degrees, suggest tracks for party
-* In case temperature is between 15 and 30 degrees, suggest pop music tracks
-* If it's a bit chilly (between 10 and 14 degrees), suggest rock music tracks
-* Otherwise, if it's freezing outside, suggests classical music tracks 
+## Deployment
+The API use a Redis database to store user's credentials. You are allowed to use any Redis distribution you want, the most easy way its deploy a Docker container with Redis installed:
 
-## Hints
+`docker run --name redis  -p 6379:6379  -d redis`
 
-You can make usage of OpenWeatherMaps API (https://openweathermap.org) to fetch temperature data and Spotify (https://developer.spotify.com) to suggest the tracks as part of the playlist.
+However, ensure you have correctly configured the Redis connection credentials in the `application.yml` file:
 
-## Non functional requirements
+```
+spring:
+  redis:
+    host: <your redis host name/url>
+    port: <your redus port>
+```
 
-As this service will be a worldwide success, it must be prepared to be fault tolerant, responsive and resilient.
+Also, ensure to provide the correct credentials for consume the Spotify/OpenWeather services:
 
-Use whatever language, tools and frameworks you feel comfortable to, and briefly elaborate on your solution, architecture details, choice of patterns and frameworks.
+```
+openweather:
+  host: http://api.openweathermap.org
+  applicationId: <your-aplication-id>
+spotify:
+  host: https://accounts.spotify.com
+  apiHost: https://api.spotify.com
+  clientId: <your-client-id>
+  clientSecret: <your-client-secret>
+```
 
-Also, make it easy to deploy/run your service(s) locally (consider using some container/vm solution for this). Once done, share your code with us.
+
+Then, just enter to the root application dir and execute the gradle bootRun command:
+
+`./gradlew clean build bootRun`
+
+### Executing unit tests
+Unit test can be executed running the following command:
+
+`./gradlew test`
+
+
+### Executing integration tests
+The integration test could be executed in an isolated environment (even without internet connection). Execute the gradle task to run all integration tests:
+
+`./gradlew intTest`
+
+
+### Automated deployment
+Since the steps are very easy to execute, there is a nicer way to deploy the entire app running just one command. We will use docker compose for this purpose. Feel free to modify the docker-compose.yml configuration file accord your business needs.
+Execute this command in the root application folder:
+
+`docker-compose up --project-name ifood -d`
+
+This command will load both services, Redis and the API. Note that -d flag indicates this process will run i background, so you will be able to enter inside each container with the following command:
+
+`docker exec -it <container-id> /bin/bash `
+
+You can find more information about the docker compose commands in the official documentation: https://docs.docker.com/compose/
+
+## Documentation
+You can review in detail any framework/tool used in this project through the architecture design records. 
+Find them here: ` doc/arch/`
+
+
+
+
+
+
