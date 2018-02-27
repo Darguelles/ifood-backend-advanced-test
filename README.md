@@ -19,6 +19,20 @@ spring:
     port: <your redus port>
 ```
 
+Also, ensure to provide the correct credentials for consume the Spotify/OpenWeather services:
+
+```
+openweather:
+  host: http://api.openweathermap.org
+  applicationId: <your-aplication-id>
+spotify:
+  host: https://accounts.spotify.com
+  apiHost: https://api.spotify.com
+  clientId: <your-client-id>
+  clientSecret: <your-client-secret>
+```
+
+
 Then, just enter to the root application dir and execute the gradle bootRun command:
 
 `./gradlew clean build bootRun`
