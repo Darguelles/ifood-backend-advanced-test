@@ -1,17 +1,12 @@
 package com.ifood.config;
 
-import feign.Contract;
 import feign.Logger;
 import feign.codec.Decoder;
 import feign.codec.Encoder;
 import feign.form.FormEncoder;
 import feign.gson.GsonDecoder;
-import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
-import org.springframework.cloud.netflix.feign.EnableFeignClients;
-import org.springframework.cloud.netflix.feign.support.SpringEncoder;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;

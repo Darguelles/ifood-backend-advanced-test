@@ -1,16 +1,19 @@
 package com.ifood.rest;
 
+import com.ifood.exception.SpotifyDataRetrievingException;
 import com.ifood.exception.SpotifyUndefinedCredentialsException;
 import com.ifood.exception.WeatherUndefinedException;
 import com.ifood.model.Track;
 import com.ifood.model.WeatherPlaylist;
 import com.ifood.service.MusicService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+
+import static org.springframework.http.HttpStatus.SERVICE_UNAVAILABLE;
 
 @RestController
 public class MusicController {
@@ -21,14 +24,28 @@ public class MusicController {
         this.musicService = musicService;
     }
 
-    @GetMapping("/playlist?location={locationName}")
-    public WeatherPlaylist getWeatherPlaylist(@PathVariable String locationName) throws WeatherUndefinedException, SpotifyUndefinedCredentialsException {
-        return musicService.retrievePlaylist(locationName);
+    @GetMapping(value = "/playlist", params = "location")
+    public ResponseEntity<WeatherPlaylist> getWeatherPlaylist(@RequestParam String location) throws WeatherUndefinedException, SpotifyUndefinedCredentialsException, SpotifyDataRetrievingException {
+        WeatherPlaylist result =musicService.retrievePlaylist(location);
+        return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/playlist?longitude={locationLong}&latitude={locationLat}")
-    public WeatherPlaylist getWeatherPlaylist(@PathVariable Long locationLong, @PathVariable Long locationLat) throws WeatherUndefinedException, SpotifyUndefinedCredentialsException  {
-        return musicService.retrievePlaylist(locationLong, locationLat);
+    @GetMapping(value = "/playlist", params = {"longitude","latitude"})
+    public ResponseEntity<WeatherPlaylist> getWeatherPlaylist(@RequestParam Double longitude, @RequestParam Double latitude) throws WeatherUndefinedException, SpotifyUndefinedCredentialsException, SpotifyDataRetrievingException {
+        WeatherPlaylist result =musicService.retrievePlaylist(longitude, latitude);
+        return ResponseEntity.ok(result);
+    }
+
+    @ExceptionHandler(WeatherUndefinedException.class)
+    public ResponseEntity openWeatherUnavailableExceptionHandler(Exception ex){
+        ex.printStackTrace();
+        return new ResponseEntity(SERVICE_UNAVAILABLE);
+    }
+
+    @ExceptionHandler({SpotifyDataRetrievingException.class, SpotifyUndefinedCredentialsException.class})
+    public ResponseEntity spotifyUnavailableExceptionHandler(Exception ex){
+        ex.printStackTrace();
+        return new ResponseEntity(SERVICE_UNAVAILABLE);
     }
 
 }

@@ -16,7 +16,7 @@ public class OpenWeatherFallbackImplementation implements OpenWeatherClient {
     }
 
     @Override
-    public WeatherResponse getCurrentWeatherByLocation(Long latitude, Long longitude, String appId, String units) {
+    public WeatherResponse getCurrentWeatherByLocation(Double latitude, Double longitude, String appId, String units) {
         LOGGER.info("Open weather service is not available: ", cause.getMessage());
         return null;
     }

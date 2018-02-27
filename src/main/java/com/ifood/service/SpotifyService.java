@@ -75,11 +75,7 @@ public class SpotifyService {
     public TrackSearchResult getTracksByPlaylist(SpotifyAuthCredentials credentials, String playlistId) throws SpotifyDataRetrievingException {
         String token = credentials.getTokenType() + " " + credentials.getAccessToken();
         TrackSearchResult result = spotifyOperationsClient.getTracks(token, playlistId);
-        if (result == null) {
-            throw new SpotifyDataRetrievingException("Unable to find playlist with the current credentials provided or category type");
-        } else {
-            return result;
-        }
+        return result;
     }
 
 }

@@ -4,8 +4,6 @@ import com.ifood.client.OpenWeatherClient;
 import com.ifood.config.AppProperties;
 import com.ifood.exception.WeatherUndefinedException;
 import com.ifood.model.WeatherResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.stereotype.Service;
 
 import static com.ifood.model.enums.Measure.CELCIUS;
@@ -31,7 +29,7 @@ public class WeatherService {
         }
     }
 
-    public WeatherResponse getWeatherByCityLocation(Long longitude, Long latitude) throws WeatherUndefinedException {
+    public WeatherResponse getWeatherByCityLocation(Double longitude, Double latitude) throws WeatherUndefinedException {
         WeatherResponse response = openWeatherClient.getCurrentWeatherByLocation(latitude, longitude,
                 appProperties.getWeatherApplicationId(), CELCIUS.code());
         if (response == null) {

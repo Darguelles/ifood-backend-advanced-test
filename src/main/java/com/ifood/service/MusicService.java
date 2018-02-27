@@ -1,5 +1,6 @@
 package com.ifood.service;
 
+import com.ifood.exception.SpotifyDataRetrievingException;
 import com.ifood.exception.SpotifyUndefinedCredentialsException;
 import com.ifood.exception.WeatherUndefinedException;
 import com.ifood.model.*;
@@ -23,7 +24,7 @@ public class MusicService {
         this.weatherService = weatherService;
     }
 
-    public WeatherPlaylist retrievePlaylist(String locationName) throws WeatherUndefinedException, SpotifyUndefinedCredentialsException {
+    public WeatherPlaylist retrievePlaylist(String locationName) throws WeatherUndefinedException, SpotifyUndefinedCredentialsException, SpotifyDataRetrievingException {
         WeatherResponse weather = weatherService.getWeatherByCityName(locationName);
         SpotifyAuthCredentials credentials = spotifyService.retrieveSpotifyClientCredentials();
 
@@ -34,7 +35,7 @@ public class MusicService {
         return weatherPlaylist;
     }
 
-    public WeatherPlaylist retrievePlaylist(Long longitude, Long latitude) throws WeatherUndefinedException, SpotifyUndefinedCredentialsException {
+    public WeatherPlaylist retrievePlaylist(Double longitude, Double latitude) throws WeatherUndefinedException, SpotifyUndefinedCredentialsException, SpotifyDataRetrievingException {
         WeatherResponse weather = weatherService.getWeatherByCityLocation(longitude, latitude);
         SpotifyAuthCredentials credentials = spotifyService.retrieveSpotifyClientCredentials();
 
@@ -45,25 +46,22 @@ public class MusicService {
         return weatherPlaylist;
     }
 
-    private List<Track> retrievePlaylistSongs(SpotifyAuthCredentials credentials, Double temperature) {
+    private List<Track> retrievePlaylistSongs(SpotifyAuthCredentials credentials, Double temperature) throws SpotifyDataRetrievingException, SpotifyUndefinedCredentialsException {
         PlaylistsContainer playlistsContainer = null;
-        try {
-            playlistsContainer = spotifyService.getPlaylistByCategory(credentials, selectCategory(temperature).getSearchKey()).getPlaylists();
-            List<Track> result = searchTracksByPlaylist(credentials, playlistsContainer);
-            return result;
-        } catch (SpotifyUndefinedCredentialsException e) {
-            e.printStackTrace();
-            return null;
-        }
+        playlistsContainer = spotifyService.getPlaylistByCategory(credentials, selectCategory(temperature).getSearchKey()).getPlaylists();
+        List<Track> result = searchTracksByPlaylist(credentials, playlistsContainer);
+        return result;
     }
 
-    private List<Track> searchTracksByPlaylist(SpotifyAuthCredentials credentials, PlaylistsContainer playlistsContainer) throws SpotifyUndefinedCredentialsException {
+    private List<Track> searchTracksByPlaylist(SpotifyAuthCredentials credentials, PlaylistsContainer playlistsContainer) throws SpotifyUndefinedCredentialsException, SpotifyDataRetrievingException {
         List<Track> result = new ArrayList<>();
         for (Playlist playlist : playlistsContainer.getItems()) {
             TrackSearchResult tracksByPlaylist = spotifyService.getTracksByPlaylist(credentials, playlist.getId());
-            tracksByPlaylist.getItems().forEach(item -> {
-                result.add(item.getTrack());
-            });
+            if (tracksByPlaylist != null && tracksByPlaylist.getItems() != null) {
+                tracksByPlaylist.getItems().forEach(item -> {
+                    result.add(item.getTrack());
+                });
+            }
         }
         return result;
     }

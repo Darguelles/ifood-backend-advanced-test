@@ -5,7 +5,7 @@ public enum MusicCategory {
     PARTY(30, "party"),
     POP(15, "pop"),
     ROCK(10, "rock"),
-    CLASSIC(0, "classic");
+    CLASSIC(0, "classical");
 
     private Integer degree;
     private String searchKey;
