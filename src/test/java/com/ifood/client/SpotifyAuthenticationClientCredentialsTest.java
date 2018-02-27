@@ -9,6 +9,7 @@ import feign.mock.MockClient;
 import feign.mock.MockTarget;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.cloud.openfeign.support.SpringMvcContract;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,6 +37,7 @@ public class SpotifyAuthenticationClientCredentialsTest {
             byte[] data = toByteArray(input);
             mockClient = new MockClient();
             spotifyAuthenticationClient = Feign.builder()
+                    .contract(new SpringMvcContract())
                     .decoder(new GsonDecoder())
                     .encoder(new FormEncoder())
                     .client(mockClient.ok(HttpMethod.POST, "/api/token", data))
