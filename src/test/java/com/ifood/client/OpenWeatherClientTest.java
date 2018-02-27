@@ -8,6 +8,7 @@ import feign.mock.MockClient;
 import feign.mock.MockTarget;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.cloud.openfeign.support.SpringMvcContract;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,6 +35,7 @@ public class OpenWeatherClientTest {
             byte[] data = toByteArray(input);
             mockClient = new MockClient();
             weatherClient = Feign.builder()
+                    .contract(new SpringMvcContract())
                     .decoder(new GsonDecoder())
                     .client(mockClient
                             .ok(GET, "/data/2.5/weather?q=lima&APPID=12345&units=metric", data))

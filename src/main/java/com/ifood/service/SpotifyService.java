@@ -48,7 +48,10 @@ public class SpotifyService {
 
     public SpotifyAuthCredentials retrieveSpotifyClientCredentials() throws SpotifyUndefinedCredentialsException {
         List<SpotifyAuthCredentials> savedCredentials = new ArrayList<>();
-        credentialsRepository.findAll().forEach(savedCredentials::add);
+
+        if(credentialsRepository.findAll() != null){
+            credentialsRepository.findAll().forEach(savedCredentials::add);
+        }
 
         if (savedCredentials.size() > 0 && savedCredentials.get(0) != null) {
             SpotifyAuthCredentials credentials = savedCredentials.get(0);

@@ -1,5 +1,6 @@
 package com.ifood.client;
 
+import com.ifood.model.PlaylistSearchResult;
 import com.ifood.model.TrackSearchResult;
 import feign.Feign;
 import feign.form.FormEncoder;
@@ -8,6 +9,7 @@ import feign.mock.MockClient;
 import feign.mock.MockTarget;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.cloud.openfeign.support.SpringMvcContract;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,10 +23,9 @@ import static org.junit.Assert.assertThat;
 public class SpotifyAuthenticationClientTrackTest {
 
     private MockClient mockClient;
-    private SpotifyAuthenticationClient spotifyAuthenticationClient;
+    private SpotifyOperationsClient spotifyOperationsClient;
 
     private final static String DEFAULT_TOKEN = "abcd123456";
-    private final static String DEFAULT_TRACK_NAME = "Contagious (Mercer Remix)";
     private final static String DEFAULT_PLAYLIST_ID = "37i9dQZF1DWUlZhYdX0uqM";
 
     @Before
@@ -32,25 +33,27 @@ public class SpotifyAuthenticationClientTrackTest {
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("SpotifyClientTracksResponse.json")) {
             byte[] data = toByteArray(input);
             mockClient = new MockClient();
-            spotifyAuthenticationClient = Feign.builder()
+            spotifyOperationsClient = Feign.builder()
+                    .contract(new SpringMvcContract())
                     .decoder(new GsonDecoder())
                     .encoder(new FormEncoder())
                     .client(mockClient.ok(GET, "/v1/users/spotify/playlists/" + DEFAULT_PLAYLIST_ID + "/tracks", data))
-                    .target(new MockTarget<>(SpotifyAuthenticationClient.class));
+                    .target(new MockTarget<>(SpotifyOperationsClient.class));
         }
     }
 
-    /*@Test
-    public void shouldReturnOkForGetPlaylistsTracks() {
-        TrackSearchResult searchResult = spotifyAuthenticationClient.getTracks(DEFAULT_TOKEN, DEFAULT_PLAYLIST_ID);
+    @Test
+    public void shouldReturnOkForGetCategoryPlaylists() {
+        TrackSearchResult searchResult = spotifyOperationsClient.getTracks(DEFAULT_TOKEN, DEFAULT_PLAYLIST_ID);
         assertThat(searchResult, notNullValue());
         mockClient.verifyStatus();
     }
 
     @Test
-    public void shouldMapRetrievedValuesWithCapplicationObjectModel() {
-        TrackSearchResult searchResult = spotifyAuthenticationClient.getTracks(DEFAULT_TOKEN, DEFAULT_PLAYLIST_ID);
-        assertThat(searchResult.getItems().get(0).getTrack().getName(), is(DEFAULT_TRACK_NAME));
+    public void shouldMapCorrectlyRetrievedValuesWithOurObjectModel() {
+        TrackSearchResult searchResult = spotifyOperationsClient.getTracks(DEFAULT_TOKEN, DEFAULT_PLAYLIST_ID);
+        assertThat(searchResult.getItems().get(0).getTrack().getName(), notNullValue());
         mockClient.verifyStatus();
-    }*/
+    }
+
 }

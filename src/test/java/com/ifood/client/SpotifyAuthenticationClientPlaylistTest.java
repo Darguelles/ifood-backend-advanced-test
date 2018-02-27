@@ -8,6 +8,7 @@ import feign.mock.MockClient;
 import feign.mock.MockTarget;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.cloud.openfeign.support.SpringMvcContract;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,7 +22,7 @@ import static org.junit.Assert.assertThat;
 public class SpotifyAuthenticationClientPlaylistTest {
 
     private MockClient mockClient;
-    private SpotifyAuthenticationClient spotifyAuthenticationClient;
+    private SpotifyOperationsClient spotifyOperationsClient;
 
     private final static String DEFAULT_TOKEN = "abcd123456";
     private final static String DEFAULT_CATEGORY = "rock";
@@ -32,26 +33,27 @@ public class SpotifyAuthenticationClientPlaylistTest {
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("SpotifyClientPlaylistsResponse.json")) {
             byte[] data = toByteArray(input);
             mockClient = new MockClient();
-            spotifyAuthenticationClient = Feign.builder()
+            spotifyOperationsClient = Feign.builder()
+                    .contract(new SpringMvcContract())
                     .decoder(new GsonDecoder())
                     .encoder(new FormEncoder())
                     .client(mockClient.ok(GET, "/v1/browse/categories/rock/playlists", data))
-                    .target(new MockTarget<>(SpotifyAuthenticationClient.class));
+                    .target(new MockTarget<>(SpotifyOperationsClient.class));
         }
     }
 
-    /*@Test
+    @Test
     public void shouldReturnOkForGetCategoryPlaylists() {
-        PlaylistSearchResult searchResult = spotifyAuthenticationClient.getPlaylistByCategory(DEFAULT_TOKEN, DEFAULT_CATEGORY);
+        PlaylistSearchResult searchResult = spotifyOperationsClient.getPlaylistByCategory(DEFAULT_TOKEN, DEFAULT_CATEGORY);
         assertThat(searchResult, notNullValue());
         mockClient.verifyStatus();
     }
 
     @Test
     public void shouldMapCorrectlyRetrievedValuesWithOurObjectModel() {
-        PlaylistSearchResult searchResult = spotifyAuthenticationClient.getPlaylistByCategory(DEFAULT_TOKEN, DEFAULT_CATEGORY);
+        PlaylistSearchResult searchResult = spotifyOperationsClient.getPlaylistByCategory(DEFAULT_TOKEN, DEFAULT_CATEGORY);
         assertThat(searchResult.getPlaylists().getItems().get(0).getId(), is(DEFAULT_PLAYLIST_ID));
         mockClient.verifyStatus();
-    }*/
+    }
 
 }
